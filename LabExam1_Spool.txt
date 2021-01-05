@@ -1,0 +1,463 @@
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step A:
+SQL> 
+SQL> DROP TABLE REGISTRATION;
+
+Table dropped.
+
+SQL> DROP TABLE STUDENT;
+
+Table dropped.
+
+SQL> DROP TABLE COURSE;
+
+Table dropped.
+
+SQL> DROP TABLE MAJOR;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step B:
+SQL> 
+SQL> CREATE TABLE STUDENT
+  2  (StudentId CHAR(5),
+  3  Last VARCHAR2(15) NOT NULL,
+  4  First VARCHAR2(15),
+  5  City VARCHAR2(30),
+  6  State CHAR(2) DEFAULT 'NJ',
+  7  Zip CHAR(5),
+  8  BirthDate DATE,
+  9  MajorId NUMBER(3),
+ 10  CONSTRAINT STUDENT_StudentId_pk PRIMARY KEY (StudentId));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE COURSE
+  2  (CourseId VARCHAR2(6),
+  3  Title VARCHAR2(20) UNIQUE,
+  4  Credits NUMBER(1) CHECK (Credits >= 0 AND Credits <= 4),
+  5  CONSTRAINT COURSE_CourseId_pk PRIMARY KEY (CourseId));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE REGISTRATION
+  2  (StudentId CHAR(5),
+  3  CourseId VARCHAR2(6),
+  4  FinalGrade CHAR(1),
+  5  CONSTRAINT REGISTRATION_Ids_pk PRIMARY KEY (StudentId, CourseId),
+  6  CONSTRAINT REGISTRATION_StudentId_fk FOREIGN KEY (StudentId) REFERENCES STUDENT(StudentId),
+  7  CONSTRAINT REGISTRATION_CourseId_fk FOREIGN KEY (CourseId) REFERENCES COURSE(CourseId));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE MAJOR
+  2  (MajorId NUMBER(3),
+  3  MajorDesc VARCHAR2(25),
+  4  CONSTRAINT REGISTRATION_MajorId_pk PRIMARY KEY (MajorId));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step C:
+SQL> 
+SQL> ALTER TABLE STUDENT
+  2  ADD CONSTRAINT STUDENT_MajorId_fk FOREIGN KEY (MajorId) REFERENCES MAJOR(MajorId);
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step D:
+SQL> 
+SQL> 
+SQL> INSERT INTO COURSE VALUES
+  2  ('EN100', 'Basic English', 0);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO COURSE VALUES
+  2  ('LA123', 'English Literature', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO COURSE VALUES
+  2  ('CIS253', 'DataBase Systems', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO COURSE VALUES
+  2  ('CIS265', 'Systems Analysis', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO COURSE VALUES
+  2  ('MA150', 'College Algebra', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO COURSE VALUES
+  2  ('AC101', 'Accounting', 3);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> INSERT INTO MAJOR VALUES
+  2  (100, 'AAS-Accounting');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO MAJOR VALUES
+  2  (200, 'AAS-Computer Science');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO MAJOR VALUES
+  2  (300, 'AAS-Telecommunications');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO MAJOR VALUES
+  2  (400, 'BS-Accounting');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO MAJOR VALUES
+  2  (500, 'BS-Computer Science');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO MAJOR VALUES
+  2  (600, 'BS-Telecommunications');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  ('00100', 'Diaz', 'Jose', 'Hill', 'NJ', '08863', TO_DATE('83-02-12', 'YY-MM-DD'), 100);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  ('00101', 'Tyler', 'Mickey', 'Bronx', 'NY', '10468', TO_DATE('84-03-18', 'YY-MM-DD'), 500);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  ('00102', 'Patel', 'Rajesh', 'Edison', 'NJ', '08837', TO_DATE('85-12-12', 'YY-MM-DD'), 400);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  ('00103', 'Rickles', 'Deborah', 'Iselin', 'NJ', '08863', TO_DATE('70-10-20', 'YY-MM-DD'), 500);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  ('00104', 'Lee', 'Brian', 'Hope', 'NY', '11373', TO_DATE('85-11-28', 'YY-MM-DD'), 600);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  ('00105', 'Khan', 'Amir', 'Clifton', 'NJ', '07222', TO_DATE('84-07-07', 'YY-MM-DD'), 200);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00100', 'AC101', 'F');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00100', 'LA123', 'B');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00100', 'CIS265', 'A');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00102', 'LA123', 'D');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00102', 'AC101', 'A');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00103', 'CIS265', 'W');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00103', 'MA150', 'D');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00100', 'CIS253', '');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00103', 'CIS253', 'B');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00104', 'LA123', '');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00104', 'CIS265', 'A');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00104', 'CIS253', '');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00105', 'MA150', '');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00105', 'AC101', 'A');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00101', 'MA150', '');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00102', 'CIS265', 'B');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00102', 'MA150', '');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO REGISTRATION VALUES
+  2  ('00102', 'EN100', 'B');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step E:
+SQL> 
+SQL> ALTER TABLE STUDENT
+  2  ADD StartTerm CHAR(4);
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> UPDATE STUDENT
+  2  SET StartTerm = 'WN12'
+  3  WHERE StudentId = '00100';
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE STUDENT
+  2  SET StartTerm = 'SP12'
+  3  WHERE StudentId = '00101';
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE STUDENT
+  2  SET StartTerm = 'WN12'
+  3  WHERE StudentId = '00102';
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE STUDENT
+  2  SET StartTerm = 'SP12'
+  3  WHERE StudentId = '00103';
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE STUDENT
+  2  SET StartTerm = 'WN12'
+  3  WHERE StudentId = '00104';
+
+1 row updated.
+
+SQL> 
+SQL> UPDATE STUDENT
+  2  SET StartTerm = 'SP12'
+  3  WHERE StudentId = '00105';
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --2:
+SQL> 
+SQL> SELECT last||' '||first AS "Full Name", BirthDate
+  2  FROM student;
+
+Full Name                       BIRTHDATE                                                                                                                                           
+------------------------------- ---------                                                                                                                                           
+Diaz Jose                       12-FEB-83                                                                                                                                           
+Tyler Mickey                    18-MAR-84                                                                                                                                           
+Patel Rajesh                    12-DEC-85                                                                                                                                           
+Rickles Deborah                 20-OCT-70                                                                                                                                           
+Lee Brian                       28-NOV-85                                                                                                                                           
+Khan Amir                       07-JUL-84                                                                                                                                           
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --3:
+SQL> 
+SQL> SELECT *
+  2  FROM REGISTRATION
+  3  ORDER BY StudentId ASC;
+
+STUDE COURSE F                                                                                                                                                                      
+----- ------ -                                                                                                                                                                      
+00100 CIS253                                                                                                                                                                        
+00100 CIS265 A                                                                                                                                                                      
+00100 AC101  F                                                                                                                                                                      
+00100 LA123  B                                                                                                                                                                      
+00101 MA150                                                                                                                                                                         
+00102 AC101  A                                                                                                                                                                      
+00102 LA123  D                                                                                                                                                                      
+00102 MA150                                                                                                                                                                         
+00102 EN100  B                                                                                                                                                                      
+00102 CIS265 B                                                                                                                                                                      
+00103 CIS265 W                                                                                                                                                                      
+00103 CIS253 B                                                                                                                                                                      
+00103 MA150  D                                                                                                                                                                      
+00104 CIS265 A                                                                                                                                                                      
+00104 CIS253                                                                                                                                                                        
+00104 LA123                                                                                                                                                                         
+00105 MA150                                                                                                                                                                         
+00105 AC101  A                                                                                                                                                                      
+
+18 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --4:
+SQL> 
+SQL> DELETE
+  2  FROM REGISTRATION
+  3  WHERE StudentId = '00102';
+
+5 rows deleted.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM REGISTRATION
+  3  ORDER BY StudentId ASC;
+
+STUDE COURSE F                                                                                                                                                                      
+----- ------ -                                                                                                                                                                      
+00100 CIS253                                                                                                                                                                        
+00100 CIS265 A                                                                                                                                                                      
+00100 AC101  F                                                                                                                                                                      
+00100 LA123  B                                                                                                                                                                      
+00101 MA150                                                                                                                                                                         
+00103 MA150  D                                                                                                                                                                      
+00103 CIS265 W                                                                                                                                                                      
+00103 CIS253 B                                                                                                                                                                      
+00104 CIS265 A                                                                                                                                                                      
+00104 CIS253                                                                                                                                                                        
+00104 LA123                                                                                                                                                                         
+00105 MA150                                                                                                                                                                         
+00105 AC101  A                                                                                                                                                                      
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF;
